@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 
@@ -8,17 +9,6 @@ export const metadata = {
 };
 
 const SECTIONS = [
-  {
-    label: 'Founder',
-    bg: 'bg-soft-lavender',
-    accent: 'text-awareness-orange',
-    title: 'Aarush Nibbaragandla',
-    sub: '10th grade · Aspiring orthopedic surgeon',
-    body: [
-      'OrthoConnect grew from watching my father push through small injuries — pains he ignored until they became real problems. I realized that most injuries don\'t start big; they start small, and athletes rarely know what to do with those early warning signs. OrthoConnect is built to fill that gap.',
-      'The goal is pain literacy: helping young athletes recognize patterns, understand when something warrants a closer look, and have better-informed conversations with the adults around them — coaches, parents, athletic trainers, and physicians.',
-    ],
-  },
   {
     label: 'How it works',
     bg: 'bg-soft-sage',
@@ -32,7 +22,7 @@ const SECTIONS = [
   {
     label: 'Limitations',
     bg: 'bg-soft-peach',
-    accent: 'text-awareness-orange',
+    accent: 'text-brand-coral',
     title: "What OrthoConnect can't do.",
     body: [
       'OrthoConnect cannot see you, examine you, or know your full medical history. It is not validated against clinical outcomes. The patterns it describes are educational starting points, not conclusions.',
@@ -64,18 +54,50 @@ export default function AboutPage() {
   return (
     <main className="container-content min-h-screen pt-32 pb-section">
       <div className="max-w-3xl">
-        <p className="text-awareness-orange text-sm font-medium uppercase tracking-widest">About</p>
+        <p className="text-brand-coral text-sm font-medium uppercase tracking-widest">About</p>
         <h1 className="font-display text-display-lg text-fg-primary mt-4">
           Most injuries don&apos;t start big. They start small.
         </h1>
       </div>
 
       <div className="mt-section space-y-8">
+        <section className="bg-soft-lavender ring-subtle rounded-card p-10 md:p-16">
+          <div className="grid gap-10 md:grid-cols-[1fr_minmax(260px,340px)] md:items-start md:gap-14">
+            <div>
+              <p className="text-brand-coral text-sm font-medium uppercase tracking-widest">Founder</p>
+              <p className="text-fg-secondary mt-2 text-sm">10th grade · Aspiring orthopedic surgeon</p>
+              <h2 className="font-display text-fg-primary mt-4 text-3xl">Aarush Nibbaragandla</h2>
+              <div className="mt-8 space-y-6 text-lg leading-relaxed">
+                <p>
+                  OrthoConnect grew from watching my father push through small injuries — pains he
+                  ignored until they became real problems. I realized that most injuries don&apos;t
+                  start big; they start small, and athletes rarely know what to do with those early
+                  warning signs. OrthoConnect is built to fill that gap.
+                </p>
+                <p>
+                  The goal is pain literacy: helping young athletes recognize patterns, understand
+                  when something warrants a closer look, and have better-informed conversations with
+                  the adults around them — coaches, parents, athletic trainers, and physicians.
+                </p>
+              </div>
+            </div>
+            <div className="ring-subtle relative aspect-[7/8] w-full overflow-hidden rounded-card">
+              <Image
+                src="/founder/aarush.jpg"
+                alt="Aarush Nibbaragandla, founder of OrthoConnect"
+                fill
+                priority
+                sizes="(min-width: 1024px) 340px, (min-width: 768px) 320px, 100vw"
+                className="object-cover"
+              />
+            </div>
+          </div>
+        </section>
+
         {SECTIONS.map((s) => (
           <section key={s.label} className={`${s.bg} ring-subtle rounded-card p-10 md:p-16`}>
             <div className="max-w-3xl">
               <p className={`${s.accent} text-sm font-medium uppercase tracking-widest`}>{s.label}</p>
-              {s.sub ? <p className="text-fg-secondary mt-2 text-sm">{s.sub}</p> : null}
               <h2 className="font-display text-fg-primary mt-4 text-3xl">{s.title}</h2>
               <div className="mt-8 space-y-6 text-lg leading-relaxed">
                 {s.body.map((p, i) => (
