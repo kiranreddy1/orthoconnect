@@ -1,0 +1,17 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "prefix": { "value": "oc" },
+    "env": { "value": "prod" },
+    "location": { "value": "eastus" },
+    "customDomain": { "value": "orthoconnect.care" },
+    "pgAdminLogin": { "value": "orthoconnect_admin" },
+    "pgAdminPassword": {
+      "value": "REPLACE_WITH_STRONG_PASSWORD"
+    },
+    "adminPrincipalObjectId": {
+      "value": "REPLACE_WITH_YOUR_AAD_OBJECT_ID"
+    }
+  }
+}

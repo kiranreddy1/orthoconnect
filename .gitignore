@@ -41,6 +41,7 @@ yarn-error.log*
 # azure
 .azure/
 azure.env
+infra/main.parameters.json
 
 # OS
 .DS_Store
