@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { FieldLabel, RadioCardGroup, TextField } from './form-primitives';
 import { SPORTS } from './options';
 import type { ActivityFrequency, SexAtBirth } from '@/lib/logic-engine/types';
@@ -16,6 +17,31 @@ const FREQ_OPTIONS = [
   { id: 'four_or_five' as const, label: '4–5 times a week' },
   { id: 'daily' as const, label: 'Daily' },
 ];
+
+function cmFromFtIn(ft: number, inches: number): number | undefined {
+  if (!Number.isFinite(ft) && !Number.isFinite(inches)) return undefined;
+  const totalInches = (Number.isFinite(ft) ? ft : 0) * 12 + (Number.isFinite(inches) ? inches : 0);
+  if (totalInches <= 0) return undefined;
+  return Math.round(totalInches * 2.54);
+}
+
+function ftInFromCm(cm: number | undefined): { ft: string; inches: string } {
+  if (!cm || cm <= 0) return { ft: '', inches: '' };
+  const totalInches = cm / 2.54;
+  const ft = Math.floor(totalInches / 12);
+  const inches = Math.round(totalInches - ft * 12);
+  return { ft: String(ft), inches: String(inches) };
+}
+
+function kgFromLbs(lbs: number): number | undefined {
+  if (!Number.isFinite(lbs) || lbs <= 0) return undefined;
+  return Math.round(lbs / 2.2046226218);
+}
+
+function lbsFromKg(kg: number | undefined): string {
+  if (!kg || kg <= 0) return '';
+  return String(Math.round(kg * 2.2046226218));
+}
 
 export function Step2BasicInfo({
   age,
@@ -38,6 +64,39 @@ export function Step2BasicInfo({
   ) => void;
 }) {
   const ageInvalid = typeof age === 'number' && age > 0 && age < 13;
+
+  const initialFtIn = ftInFromCm(heightCm);
+  const [ft, setFt] = useState(initialFtIn.ft);
+  const [inches, setInches] = useState(initialFtIn.inches);
+  const [lbs, setLbs] = useState(lbsFromKg(weightKg));
+
+  // Re-sync local imperial state if metric values are restored from localStorage on mount.
+  useEffect(() => {
+    const next = ftInFromCm(heightCm);
+    if (next.ft !== ft && (ft === '' || ft !== next.ft)) {
+      setFt(next.ft);
+      setInches(next.inches);
+    }
+    const nextLbs = lbsFromKg(weightKg);
+    if (nextLbs !== lbs && (lbs === '' || lbs !== nextLbs)) {
+      setLbs(nextLbs);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  function handleHeightChange(nextFt: string, nextIn: string) {
+    setFt(nextFt);
+    setInches(nextIn);
+    const f = nextFt === '' ? 0 : Number.parseInt(nextFt, 10);
+    const i = nextIn === '' ? 0 : Number.parseInt(nextIn, 10);
+    setField('heightCm', cmFromFtIn(f, i));
+  }
+
+  function handleWeightChange(next: string) {
+    setLbs(next);
+    const n = next === '' ? NaN : Number.parseInt(next, 10);
+    setField('weightKg', kgFromLbs(n));
+  }
 
   return (
     <div className="space-y-8">
@@ -73,32 +132,58 @@ export function Step2BasicInfo({
         />
       </div>
 
-      <div className="grid gap-6 sm:grid-cols-2">
-        <div className="space-y-2">
-          <FieldLabel>Height (cm) — optional</FieldLabel>
-          <TextField
-            id="height"
-            type="number"
-            inputMode="numeric"
-            min={80}
-            max={230}
-            value={heightCm ?? ''}
-            onChange={(v) => setField('heightCm', v === '' ? undefined : Number.parseInt(v, 10))}
-            placeholder="170"
-          />
+      <div className="space-y-3">
+        <FieldLabel>Height — optional</FieldLabel>
+        <div className="grid grid-cols-2 gap-3">
+          <div className="relative">
+            <TextField
+              id="height-ft"
+              type="number"
+              inputMode="numeric"
+              min={3}
+              max={8}
+              value={ft}
+              onChange={(v) => handleHeightChange(v, inches)}
+              placeholder="5"
+            />
+            <span className="text-fg-secondary pointer-events-none absolute right-6 top-1/2 -translate-y-1/2 text-sm">
+              ft
+            </span>
+          </div>
+          <div className="relative">
+            <TextField
+              id="height-in"
+              type="number"
+              inputMode="numeric"
+              min={0}
+              max={11}
+              value={inches}
+              onChange={(v) => handleHeightChange(ft, v)}
+              placeholder="7"
+            />
+            <span className="text-fg-secondary pointer-events-none absolute right-6 top-1/2 -translate-y-1/2 text-sm">
+              in
+            </span>
+          </div>
         </div>
-        <div className="space-y-2">
-          <FieldLabel>Weight (kg) — optional</FieldLabel>
+      </div>
+
+      <div className="space-y-3">
+        <FieldLabel>Weight — optional</FieldLabel>
+        <div className="relative max-w-xs">
           <TextField
-            id="weight"
+            id="weight-lbs"
             type="number"
             inputMode="numeric"
-            min={20}
-            max={200}
-            value={weightKg ?? ''}
-            onChange={(v) => setField('weightKg', v === '' ? undefined : Number.parseInt(v, 10))}
-            placeholder="65"
+            min={50}
+            max={500}
+            value={lbs}
+            onChange={handleWeightChange}
+            placeholder="140"
           />
+          <span className="text-fg-secondary pointer-events-none absolute right-6 top-1/2 -translate-y-1/2 text-sm">
+            lbs
+          </span>
         </div>
       </div>
 

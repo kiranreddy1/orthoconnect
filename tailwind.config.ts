@@ -22,6 +22,11 @@ const config: Config = {
         accent: {
           DEFAULT: 'var(--accent-primary)',
         },
+        brand: {
+          teal: 'var(--brand-teal)',
+          'teal-soft': 'var(--brand-teal-soft)',
+          coral: 'var(--brand-coral)',
+        },
         awareness: {
           green: 'var(--awareness-green)',
           yellow: 'var(--awareness-yellow)',

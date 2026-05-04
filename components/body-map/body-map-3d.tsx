@@ -228,9 +228,9 @@ export function BodyMap3D({
   onSelect: (region: BodyRegion) => void;
 }) {
   return (
-    <div className="bg-bg-secondary ring-subtle relative h-[520px] w-full overflow-hidden rounded-card">
+    <div className="bg-bg-secondary ring-subtle relative h-[560px] w-full overflow-hidden rounded-card">
       <Canvas
-        camera={{ position: [0, 0.4, 2.6], fov: 35 }}
+        camera={{ position: [0, 0.25, 4.2], fov: 32 }}
         shadows
         dpr={[1, 2]}
       >
@@ -244,11 +244,11 @@ export function BodyMap3D({
         <OrbitControls
           enablePan={false}
           enableZoom
-          minDistance={1.6}
-          maxDistance={3.5}
+          minDistance={2.8}
+          maxDistance={5.5}
           minPolarAngle={Math.PI / 4}
           maxPolarAngle={(Math.PI * 3) / 4}
-          target={[0, 0.1, 0]}
+          target={[0, 0.05, 0]}
         />
       </Canvas>
       <p className="text-fg-secondary pointer-events-none absolute bottom-3 left-1/2 -translate-x-1/2 text-xs">
