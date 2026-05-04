@@ -41,6 +41,14 @@ export function Button(props: ButtonProps) {
   const classes = cn(buttonVariants({ variant, size }), className);
 
   if ('href' in props && props.href) {
+    const isExternal = /^https?:\/\//i.test(props.href);
+    if (isExternal) {
+      return (
+        <a href={props.href} target="_blank" rel="noopener noreferrer" className={classes}>
+          {children}
+        </a>
+      );
+    }
     return (
       <Link href={props.href} className={classes}>
         {children}
