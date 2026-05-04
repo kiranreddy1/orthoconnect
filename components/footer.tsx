@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Disclaimer } from './disclaimer';
+import { LogoMark } from './logo';
 
 export function Footer() {
   return (
@@ -7,7 +8,9 @@ export function Footer() {
       <div className="container-content py-section">
         <div className="grid gap-12 md:grid-cols-[2fr_1fr]">
           <div>
-            <p className="font-display text-fg-primary text-2xl">OrthoConnect</p>
+            <div className="text-fg-primary">
+              <LogoMark size="lg" />
+            </div>
             <p className="text-fg-secondary mt-2 text-sm">Built by Aarush Nibbaragandla.</p>
             <div className="mt-8 max-w-xl">
               <Disclaimer includeUrgent />

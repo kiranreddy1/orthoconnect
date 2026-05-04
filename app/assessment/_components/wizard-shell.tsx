@@ -5,14 +5,15 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { WIZARD_STEPS, type StepNumber } from './wizard-state';
 import { RotateCcw } from 'lucide-react';
+import { LogoMark } from '@/components/logo';
 
 export function ProgressBar({ step }: { step: StepNumber }) {
   const pct = (step / WIZARD_STEPS) * 100;
   return (
     <div className="fixed inset-x-0 top-0 z-30 backdrop-blur-md">
       <div className="container-content flex h-16 items-center justify-between gap-6">
-        <Link href="/" className="font-display text-fg-primary text-base tracking-tight">
-          OrthoConnect
+        <Link href="/" className="text-fg-primary">
+          <LogoMark size="sm" />
         </Link>
         <div className="flex flex-1 items-center gap-4">
           <div className="bg-bg-elevated relative h-1 flex-1 overflow-hidden rounded-full">
