@@ -11,7 +11,7 @@ resource pg 'Microsoft.DBforPostgreSQL/flexibleServers@2024-08-01' = {
   name: serverName
   location: location
   sku: {
-    name: 'Standard_B1ms'
+    name: 'Standard_B1s'
     tier: 'Burstable'
   }
   properties: {
