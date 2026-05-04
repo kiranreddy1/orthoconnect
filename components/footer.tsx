@@ -44,14 +44,6 @@ export function Footer() {
             >
               Find a doctor (AMSSM)
             </a>
-            <a
-              href="https://github.com/kiranreddy1/orthoconnect"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-fg-secondary hover:text-fg-primary transition-colors"
-            >
-              GitHub
-            </a>
           </nav>
         </div>
         <p className="text-fg-secondary mt-section text-xs">
