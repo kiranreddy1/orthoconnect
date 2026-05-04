@@ -1,9 +1,21 @@
 'use client';
 
-import { BodyMapInteractive } from '@/components/body-map/body-map-interactive';
+import dynamic from 'next/dynamic';
 import { RadioCardGroup, FieldLabel } from './form-primitives';
 import { SUBREGIONS } from './options';
 import type { BodyRegion } from '@/lib/logic-engine';
+
+const BodyMap3D = dynamic(
+  () => import('@/components/body-map/body-map-3d').then((m) => m.BodyMap3D),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="bg-bg-secondary ring-subtle flex h-[520px] w-full items-center justify-center rounded-card">
+        <p className="text-fg-secondary text-sm">Loading 3D model…</p>
+      </div>
+    ),
+  },
+);
 
 export function Step3Location({
   bodyRegion,
@@ -20,7 +32,7 @@ export function Step3Location({
 
   return (
     <div className="grid gap-12 lg:grid-cols-[auto_1fr]">
-      <BodyMapInteractive
+      <BodyMap3D
         selected={bodyRegion}
         onSelect={(r) => {
           setField('bodyRegion', r);
@@ -42,7 +54,7 @@ export function Step3Location({
         </div>
       ) : (
         <p className="text-fg-secondary self-center text-base">
-          Pick a region on the map. We&apos;ll ask for the more specific spot next.
+          Click a body part on the figure. We&apos;ll ask for the more specific spot next.
         </p>
       )}
     </div>
