@@ -4,7 +4,14 @@ import { LogoMark } from './logo';
 
 export function Footer() {
   return (
-    <footer className="border-t border-black/10 mt-section-lg">
+    <footer className="mt-section-lg">
+      <div className="flex h-1 w-full">
+        <span className="bg-awareness-green flex-1" />
+        <span className="bg-awareness-yellow flex-1" />
+        <span className="bg-awareness-orange flex-1" />
+        <span className="bg-awareness-red flex-1" />
+      </div>
+      <div className="border-t border-black/10">
       <div className="container-content py-section">
         <div className="grid gap-12 md:grid-cols-[2fr_1fr]">
           <div>
@@ -50,6 +57,7 @@ export function Footer() {
         <p className="text-fg-secondary mt-section text-xs">
           © {new Date().getFullYear()} OrthoConnect. Built by Aarush Nibbaragandla.
         </p>
+      </div>
       </div>
     </footer>
   );

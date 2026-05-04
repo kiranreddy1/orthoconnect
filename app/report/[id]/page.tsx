@@ -8,11 +8,25 @@ import { loadReport } from '@/lib/report-store';
 import { getCitations } from '@/lib/logic-engine';
 import { cn } from '@/lib/utils';
 
-const LEVEL_COLORS = {
-  green: 'bg-awareness-green/15 text-awareness-green',
-  yellow: 'bg-awareness-yellow/15 text-awareness-yellow',
-  orange: 'bg-awareness-orange/15 text-awareness-orange',
-  red: 'bg-awareness-red/15 text-awareness-red',
+const LEVEL_HERO_BG = {
+  green: 'bg-awareness-green',
+  yellow: 'bg-awareness-yellow',
+  orange: 'bg-awareness-orange',
+  red: 'bg-awareness-red',
+};
+
+const LEVEL_SOFT_BG = {
+  green: 'bg-soft-sage',
+  yellow: 'bg-soft-peach',
+  orange: 'bg-soft-peach',
+  red: 'bg-soft-rose',
+};
+
+const LEVEL_TEXT = {
+  green: 'text-awareness-green',
+  yellow: 'text-awareness-yellow',
+  orange: 'text-awareness-orange',
+  red: 'text-awareness-red',
 };
 
 const LEVEL_HEADLINE = {
@@ -47,24 +61,35 @@ export default async function ReportPage({ params }: { params: { id: string } })
           <Disclaimer />
         </div>
 
-        <section className={cn('mt-section rounded-card p-10 md:p-16', LEVEL_COLORS[level])}>
-          <p className="font-mono text-sm uppercase tracking-widest opacity-70">Awareness</p>
+        <section className={cn('mt-section text-bg-primary relative overflow-hidden rounded-card p-10 md:p-16', LEVEL_HERO_BG[level])}>
+          <p className="font-mono text-sm uppercase tracking-widest opacity-80">Awareness</p>
           <h1 className="font-display mt-3 text-display-lg">{LEVEL_HEADLINE[level]}</h1>
-          <p className="mt-6 max-w-2xl text-xl">{LEVEL_BLURB[level]}</p>
+          <p className="mt-6 max-w-2xl text-xl opacity-95">{LEVEL_BLURB[level]}</p>
+          <div className="mt-10 flex items-center gap-2">
+            {(['green', 'yellow', 'orange', 'red'] as const).map((l) => (
+              <span
+                key={l}
+                className={cn(
+                  'inline-block h-2 w-12 rounded-full transition-opacity',
+                  l === level ? 'bg-bg-primary' : 'bg-bg-primary/30',
+                )}
+              />
+            ))}
+          </div>
         </section>
 
         {report.patterns.length > 0 ? (
           <section className="mt-section">
-            <p className="text-fg-secondary text-sm uppercase tracking-widest">
+            <p className={cn('text-sm font-medium uppercase tracking-widest', LEVEL_TEXT[level])}>
               Common patterns athletes describe
             </p>
             <div className="mt-8 space-y-4">
               {report.patterns.map((p) => (
-                <div key={p.id} className="bg-bg-secondary ring-subtle rounded-card p-6">
+                <div key={p.id} className={cn('ring-subtle rounded-card p-6', LEVEL_SOFT_BG[level])}>
                   <h2 className="font-display text-fg-primary text-2xl">{p.title}</h2>
-                  <p className="text-fg-secondary mt-3 text-base leading-relaxed">{p.description}</p>
+                  <p className="text-fg-primary/80 mt-3 text-base leading-relaxed">{p.description}</p>
                   {p.citationIds.length > 0 ? (
-                    <p className="text-fg-secondary mt-4 text-xs">
+                    <p className="text-fg-primary/60 mt-4 text-xs">
                       References: {p.citationIds.join(', ')}
                     </p>
                   ) : null}
@@ -76,7 +101,7 @@ export default async function ReportPage({ params }: { params: { id: string } })
 
         {report.contributingFactors.length > 0 ? (
           <section className="mt-section">
-            <p className="text-fg-secondary text-sm uppercase tracking-widest">
+            <p className="text-awareness-orange text-sm font-medium uppercase tracking-widest">
               What might be contributing
             </p>
             <ul className="mt-8 space-y-3">
@@ -90,7 +115,7 @@ export default async function ReportPage({ params }: { params: { id: string } })
         ) : null}
 
         <section className="mt-section">
-          <p className="text-fg-secondary text-sm uppercase tracking-widest">Suggested next steps</p>
+          <p className="text-awareness-green text-sm font-medium uppercase tracking-widest">Suggested next steps</p>
           <ul className="mt-8 space-y-3">
             {report.nextSteps.map((s, i) => (
               <li key={i} className="text-fg-primary text-base leading-relaxed">
@@ -101,7 +126,7 @@ export default async function ReportPage({ params }: { params: { id: string } })
         </section>
 
         <section className="mt-section">
-          <p className="text-fg-secondary text-sm uppercase tracking-widest">
+          <p className="text-awareness-red text-sm font-medium uppercase tracking-widest">
             When to see a professional
           </p>
           <ul className="mt-8 space-y-3">
@@ -124,7 +149,7 @@ export default async function ReportPage({ params }: { params: { id: string } })
 
         {citations.length > 0 ? (
           <section className="mt-section">
-            <p className="text-fg-secondary text-sm uppercase tracking-widest">References</p>
+            <p className="text-fg-secondary text-sm font-medium uppercase tracking-widest">References</p>
             <ul className="text-fg-secondary mt-6 space-y-3 text-sm">
               {citations.map((c) => (
                 <li key={c.id}>
