@@ -7,8 +7,8 @@ param prefix string = 'oc'
 @allowed(['prod', 'staging', 'dev'])
 param env string = 'prod'
 
-@description('Azure region.')
-param location string = 'eastus'
+@description('Azure region. Note: Static Web Apps is not available in eastus, so we use eastus2 by default.')
+param location string = 'eastus2'
 
 @description('Custom domain to host the app on (no scheme).')
 param customDomain string = 'orthoconnect.care'
