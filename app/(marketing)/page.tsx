@@ -55,7 +55,7 @@ export default function HomePage() {
   return (
     <main>
       {/* Section A — Hero */}
-      <section className="relative overflow-hidden pt-24">
+      <section className="relative overflow-hidden pt-20">
         <DecorativeOrb
           color="peach"
           className="pointer-events-none absolute -right-20 -top-20 h-[700px] w-[700px] opacity-90"
@@ -69,7 +69,7 @@ export default function HomePage() {
           className="pointer-events-none absolute right-0 bottom-0 h-[500px] w-[500px] opacity-50"
         />
 
-        <div className="container-content relative grid min-h-[80vh] items-center gap-12 py-section lg:grid-cols-[1.2fr_1fr]">
+        <div className="container-content relative grid items-center gap-12 pt-12 pb-section lg:grid-cols-[1.2fr_1fr]">
           <div>
             <FadeIn>
               <p className="text-awareness-orange text-sm uppercase tracking-widest">OrthoConnect</p>
