@@ -3,7 +3,7 @@ import { Disclaimer } from './disclaimer';
 
 export function Footer() {
   return (
-    <footer className="border-t border-white/5 mt-section-lg">
+    <footer className="border-t border-black/10 mt-section-lg">
       <div className="container-content py-section">
         <div className="grid gap-12 md:grid-cols-[2fr_1fr]">
           <div>
