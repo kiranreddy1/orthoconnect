@@ -57,6 +57,14 @@ export function assessAwareness(input: AssessmentInput): AwarenessReport {
   };
 }
 
-export type { AssessmentInput, AwarenessLevel, AwarenessReport, MatchedPattern, ModifierApplied } from './types';
+export type {
+  AssessmentInput,
+  AwarenessLevel,
+  AwarenessReport,
+  BodyRegion,
+  MatchedPattern,
+  ModifierApplied,
+  RedFlag,
+} from './types';
 export { CITATIONS, getCitations } from './citations';
 export { listAllPatternIds } from './patterns';
