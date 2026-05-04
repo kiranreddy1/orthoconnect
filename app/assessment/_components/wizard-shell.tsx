@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { WIZARD_STEPS, type StepNumber } from './wizard-state';
+import { RotateCcw } from 'lucide-react';
 
 export function ProgressBar({ step }: { step: StepNumber }) {
   const pct = (step / WIZARD_STEPS) * 100;
@@ -36,6 +37,7 @@ export function WizardShell({
   children,
   onNext,
   onPrev,
+  onStartOver,
   nextLabel = 'Continue',
   nextDisabled,
   hideNext,
@@ -46,6 +48,7 @@ export function WizardShell({
   children: React.ReactNode;
   onNext?: () => void;
   onPrev?: () => void;
+  onStartOver?: () => void;
   nextLabel?: string;
   nextDisabled?: boolean;
   hideNext?: boolean;
@@ -55,7 +58,19 @@ export function WizardShell({
       <ProgressBar step={step} />
       <main className={cn('container-content min-h-screen pt-32 pb-section')}>
         <div className="max-w-2xl">
-          <p className="text-fg-secondary text-sm uppercase tracking-widest">Step {step}</p>
+          <div className="flex items-center justify-between gap-4">
+            <p className="text-fg-secondary text-sm uppercase tracking-widest">Step {step}</p>
+            {onStartOver ? (
+              <button
+                type="button"
+                onClick={onStartOver}
+                className="text-fg-secondary hover:text-fg-primary inline-flex items-center gap-1.5 text-sm transition-colors"
+              >
+                <RotateCcw className="h-3.5 w-3.5" strokeWidth={1.5} />
+                Start over
+              </button>
+            ) : null}
+          </div>
           <h1 className="font-display text-display-md text-fg-primary mt-4">{title}</h1>
           {subtitle ? <p className="text-fg-secondary mt-4 text-lg">{subtitle}</p> : null}
           <div className="mt-12">{children}</div>

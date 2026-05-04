@@ -28,6 +28,14 @@ const config: Config = {
           orange: 'var(--awareness-orange)',
           red: 'var(--awareness-red)',
         },
+        soft: {
+          sage: '#D6E4D9',
+          peach: '#F5DCC4',
+          sky: '#D4E2EC',
+          lavender: '#E0D8E8',
+          rose: '#F0D9D9',
+          cream: '#F4ECDC',
+        },
         ring: {
           subtle: 'rgba(0, 0, 0, 0.06)',
         },

@@ -15,6 +15,7 @@ export type WizardAnswers = Partial<AssessmentInput> & {
 export interface WizardState {
   step: StepNumber;
   answers: WizardAnswers;
+  savedAt?: number;
 }
 
 export const INITIAL_STATE: WizardState = {
@@ -27,6 +28,8 @@ export const INITIAL_STATE: WizardState = {
     acknowledgedAge: false,
   },
 };
+
+const MAX_AGE_MS = 24 * 60 * 60 * 1000;
 
 export type WizardAction =
   | { type: 'set'; field: keyof WizardAnswers; value: WizardAnswers[keyof WizardAnswers] }
@@ -60,7 +63,8 @@ export function wizardReducer(state: WizardState, action: WizardAction): WizardS
 export function persistWizard(state: WizardState): void {
   if (typeof window === 'undefined') return;
   try {
-    window.localStorage.setItem(WIZARD_STORAGE_KEY, JSON.stringify(state));
+    const withTs: WizardState = { ...state, savedAt: Date.now() };
+    window.localStorage.setItem(WIZARD_STORAGE_KEY, JSON.stringify(withTs));
   } catch {
     // storage may be unavailable (private mode, full quota); silent fail is fine
   }
@@ -73,6 +77,10 @@ export function readWizard(): WizardState | null {
     if (!raw) return null;
     const parsed = JSON.parse(raw) as WizardState;
     if (typeof parsed.step !== 'number' || parsed.step < 1 || parsed.step > WIZARD_STEPS) return null;
+    // A saved session at the submit step is almost always an aborted/expired flow.
+    // Don't dump the user there silently — start fresh.
+    if (parsed.step === WIZARD_STEPS) return null;
+    if (parsed.savedAt && Date.now() - parsed.savedAt > MAX_AGE_MS) return null;
     return parsed;
   } catch {
     return null;

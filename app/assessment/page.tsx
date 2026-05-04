@@ -115,7 +115,17 @@ function AssessmentWizard() {
     }
   }
 
+  function startOver() {
+    if (typeof window !== 'undefined') {
+      const ok = window.confirm('Start over? Your current answers will be cleared.');
+      if (!ok) return;
+    }
+    clearWizard();
+    dispatch({ type: 'reset' });
+  }
+
   const back = state.step > 1 ? () => dispatch({ type: 'prev' }) : undefined;
+  const startOverHandler = state.step > 1 ? startOver : undefined;
 
   if (!hydrated) {
     return <div className="container-content min-h-screen pt-32" aria-busy="true" />;
@@ -144,6 +154,7 @@ function AssessmentWizard() {
           step={2}
           title="Tell us a bit about you."
           onPrev={back}
+          onStartOver={startOverHandler}
           onNext={() => dispatch({ type: 'next' })}
           nextDisabled={!isStep2Valid({ age: a.age, sport: a.sport, activityFrequency: a.activityFrequency })}
         >
@@ -165,6 +176,7 @@ function AssessmentWizard() {
           title="Where does it hurt?"
           subtitle="Pick a region first, then tell us where in that region."
           onPrev={back}
+          onStartOver={startOverHandler}
           onNext={() => dispatch({ type: 'next' })}
           nextDisabled={!isStep3Valid({ bodyRegion: a.bodyRegion, bodySubregion: a.bodySubregion })}
         >
@@ -181,6 +193,7 @@ function AssessmentWizard() {
           step={4}
           title="Anything urgent?"
           onPrev={back}
+          onStartOver={startOverHandler}
           onNext={nextOrJump}
           nextLabel={hasRedFlags ? 'Skip ahead to my report' : 'Continue'}
         >
@@ -196,6 +209,7 @@ function AssessmentWizard() {
           step={5}
           title="When did this start?"
           onPrev={back}
+          onStartOver={startOverHandler}
           onNext={() => dispatch({ type: 'next' })}
           nextDisabled={!isStep5Valid({ onset: a.onset, duration: a.duration })}
         >
@@ -212,6 +226,7 @@ function AssessmentWizard() {
           step={6}
           title="What does it feel like?"
           onPrev={back}
+          onStartOver={startOverHandler}
           onNext={() => dispatch({ type: 'next' })}
           nextDisabled={!isStep6Valid({ painQuality: a.painQuality, severity: a.severity })}
         >
@@ -228,6 +243,7 @@ function AssessmentWizard() {
           step={7}
           title="What is the pattern?"
           onPrev={back}
+          onStartOver={startOverHandler}
           onNext={() => dispatch({ type: 'next' })}
           nextDisabled={!isStep7Valid({ worstWhen: a.worstWhen })}
         >
@@ -245,6 +261,7 @@ function AssessmentWizard() {
           step={8}
           title="How is it affecting you?"
           onPrev={back}
+          onStartOver={startOverHandler}
           onNext={() => dispatch({ type: 'next' })}
           nextDisabled={!isStep8Valid({ functionalImpact: a.functionalImpact, progression: a.progression })}
         >
@@ -261,6 +278,7 @@ function AssessmentWizard() {
           step={9}
           title="Anything else?"
           onPrev={back}
+          onStartOver={startOverHandler}
           onNext={() => dispatch({ type: 'next' })}
           nextLabel="Continue to submit"
         >
@@ -282,6 +300,7 @@ function AssessmentWizard() {
               : undefined
           }
           onPrev={back}
+          onStartOver={startOverHandler}
           hideNext
         >
           <Step10Submit onSubmit={handleSubmit} status={submitStatus} error={submitError} />
