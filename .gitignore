@@ -57,5 +57,4 @@ Thumbs.db
 coverage/
 .vitest/
 
-# drizzle
-drizzle/
+# drizzle: track migration SQL files in `drizzle/`. Nothing else generated here is committed.
